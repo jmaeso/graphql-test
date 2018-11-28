@@ -5,9 +5,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/graphql-go/handler"
-	"github.com/jmaeso/graphql-test/graphql"
-	"github.com/jmaeso/graphql-test/storage/postgres"
+	"github.com/jmaeso/graphql-test/app/api"
+	"github.com/jmaeso/graphql-test/app/graphql"
+	"github.com/jmaeso/graphql-test/app/storage/postgres"
 	_ "github.com/lib/pq"
 )
 
@@ -21,25 +21,12 @@ func main() {
 		SQL: db,
 	}
 
-	queryType := graphql.NewQueryType(ordersStore)
-	mutationType := graphql.NewMutationType(ordersStore)
-
-	schema, err := graphql.NewSchema(queryType, mutationType)
+	ordersSchema, err := graphql.NewOrdersSchema(ordersStore)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// create a graphl-go HTTP handler with our previously defined schema
-	// and we also set it to return pretty JSON output
-	h := handler.New(&handler.Config{
-		Schema:   schema,
-		Pretty:   true,
-		GraphiQL: true,
-	})
+	http.Handle("/orders", api.OrdersHandler(ordersSchema))
 
-	// serve a GraphQL endpoint at `/graphql`
-	http.Handle("/graphql", h)
-
-	// and serve!
 	http.ListenAndServe(":8080", nil)
 }

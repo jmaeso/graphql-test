@@ -8,7 +8,7 @@ import (
 
 const (
 	findOrderByIDStmt = "SELECT id, retailer_id, num_packages FROM orders WHERE id = $1"
-	insertOrderStmt   = "INSERT INTO orders (id, retailer_id, nom_packages) VALUES ($1, $2, $3)"
+	insertOrderStmt   = "INSERT INTO orders (id, retailer_id, num_packages) VALUES ($1, $2, $3)"
 )
 
 type OrdersStore struct {

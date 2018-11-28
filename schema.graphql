@@ -1,0 +1,14 @@
+
+type Order {
+  id: ID
+  retailer_id: String!
+  num_packages: String!
+}
+
+type Query {
+  order(id: ID!): Order
+}
+
+type Mutation {
+  createOrder(retailer_id: String!, num_packages: Int): Order
+}
