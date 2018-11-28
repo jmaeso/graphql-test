@@ -6,6 +6,7 @@ import (
 	"github.com/pborman/uuid"
 )
 
+// NewOrdersSchema is a function that prepares all the graphql configuration for an app.Order "API".
 func NewOrdersSchema(ordersStore app.OrdersStore) (graphql.Schema, error) {
 	queryType := newOrdersQueryType(ordersStore)
 	mutationType := newOrdersMutationType(ordersStore)
